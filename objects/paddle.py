@@ -11,6 +11,7 @@ from objects.commons import (
 )
 from objects.screen import Screen
 
+
 class Paddle(Box):
 
     def __init__(self, x, y, width, height, colour: tuple = (100, 255, 255)):
