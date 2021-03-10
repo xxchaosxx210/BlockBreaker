@@ -1,6 +1,9 @@
 import random
 from objects.commons import Box
-from objects.commons import COLOURS
+from objects.commons import (
+    COLOURS,
+    flip_colour
+)
 
 
 class Block(Box):
@@ -10,8 +13,14 @@ class Block(Box):
         super().__init__(x, y, width, height, colour)
         self.moving = moving
         self.breakable = breakable
-        self.health = 100
+        self.health = 100.0
+        self.damage = 30.0
 
 
 def update(block: Block):
     return
+
+
+def decrement_health(block: Block):
+    block.health -= block.damage
+    block.colour = flip_colour(*block.colour)

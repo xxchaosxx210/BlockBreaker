@@ -13,6 +13,7 @@ from objects.commons import (
 from objects.paddle import Paddle
 from objects.screen import Screen
 from objects.block import Block
+from objects.block import decrement_health
 
 BALL_DEFAULT_SPEED = 50
 
@@ -63,26 +64,30 @@ def update(ball: Ball, paddle: Paddle, screen: Screen, blocks: list, dt: float):
 def hit_block(ball: Ball, block: Block):
     if block.rect.colliderect(ball.rect):
         collision_threshold = 5
-        # Ball hit top of block
+        # Ball hit top of block. Ignore collision if ball is heading in other direction
         block_top_hit = abs(ball.rect.bottom - block.rect.top)
         if block_top_hit < collision_threshold and ball.velocity.y > 0:
             ball.velocity.y = -ball.velocity.y
+            decrement_health(block)
+            return True
         # Ball hit bottom of block
-        block_bottom_hit = abs(ball.rect.top - block.rect.top)
-        if block_bottom_hit < collision_threshold and ball.velocity.y > 0:
+        block_bottom_hit = abs(ball.rect.top - block.rect.bottom)
+        if block_bottom_hit < collision_threshold and ball.velocity.y < 0:
             ball.velocity.y = -ball.velocity.y
+            decrement_health(block)
+            return True
         # Ball hit left of Block
         block_left_hit = abs(ball.rect.right - block.rect.left)
         if block_left_hit < collision_threshold and ball.velocity.x > 0:
-            ball.velocity.x = - ball.velocity.x
+            ball.velocity.x = -ball.velocity.x
+            decrement_health(block)
+            return True
         # Ball hit right of block
         block_right_hit = abs(ball.rect.left - block.rect.right)
         if block_right_hit < collision_threshold and ball.velocity.x < 0:
             ball.velocity.x = -ball.velocity.x
-        # Reduce health
-        block.health -= 10
-        block.colour = flip_colour(*block.colour)
-        return True
+            decrement_health(block)
+            return True
     return False
 
 
