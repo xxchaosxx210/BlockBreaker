@@ -6,9 +6,13 @@ from geometry.vector import (
     normalize
 )
 
-from objects.commons import Circle
+from objects.commons import (
+    Circle,
+    flip_colour
+)
 from objects.paddle import Paddle
 from objects.screen import Screen
+from objects.block import Block
 
 BALL_DEFAULT_SPEED = 50
 
@@ -39,16 +43,47 @@ def attach_to_paddle(ball: Ball, paddle: Paddle, screen: Screen):
     ball.rect.y = ball.position.y
 
 
-def update(ball: Ball, paddle: Paddle, screen: Screen, dt: float):
+def update(ball: Ball, paddle: Paddle, screen: Screen, blocks: list, dt: float):
     if ball.moving:
         ball.position = ball.position + ball.velocity * dt
     else:
         attach_to_paddle(ball, paddle, screen)
     ball.rect.x = ball.position.x
     ball.rect.y = ball.position.y
-
+    # check if paddle has hit ball
     if not been_hit(ball, paddle):
+        # keep the ball within the screen area
         check_boundaries(ball, screen)
+        # check if ball has hit a block
+        for block in blocks:
+            if hit_block(ball, block):
+                break
+
+
+def hit_block(ball: Ball, block: Block):
+    if block.rect.colliderect(ball.rect):
+        collision_threshold = 5
+        # Ball hit top of block
+        block_top_hit = abs(ball.rect.bottom - block.rect.top)
+        if block_top_hit < collision_threshold and ball.velocity.y > 0:
+            ball.velocity.y = -ball.velocity.y
+        # Ball hit bottom of block
+        block_bottom_hit = abs(ball.rect.top - block.rect.top)
+        if block_bottom_hit < collision_threshold and ball.velocity.y > 0:
+            ball.velocity.y = -ball.velocity.y
+        # Ball hit left of Block
+        block_left_hit = abs(ball.rect.right - block.rect.left)
+        if block_left_hit < collision_threshold and ball.velocity.x > 0:
+            ball.velocity.x = - ball.velocity.x
+        # Ball hit right of block
+        block_right_hit = abs(ball.rect.left - block.rect.right)
+        if block_right_hit < collision_threshold and ball.velocity.x < 0:
+            ball.velocity.x = -ball.velocity.x
+        # Reduce health
+        block.health -= 10
+        block.colour = flip_colour(*block.colour)
+        return True
+    return False
 
 
 def been_hit(ball: Ball, paddle: Paddle):

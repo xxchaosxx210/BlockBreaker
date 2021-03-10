@@ -8,6 +8,14 @@ import pygame
 COLOURS = ((0,255,0), (255,215,0), (138,43,226))
 
 
+def flip_colour(r: int, g: int, b: int):
+    return (
+        abs(r-50),
+        abs(g-50),
+        abs(b-50)
+    )
+
+
 class Box:
 
     def __init__(self, x: float, y: int, width: int, height, colour: tuple=(255, 255, 255)):

@@ -1,10 +1,6 @@
-import pygame
 import random
-from objects.screen import Screen
-from objects.ball import Ball
 from objects.commons import Box
 from objects.commons import COLOURS
-from objects.ball import Ball
 
 
 class Block(Box):
@@ -14,13 +10,8 @@ class Block(Box):
         super().__init__(x, y, width, height, colour)
         self.moving = moving
         self.breakable = breakable
-        self.remove = False
+        self.health = 100
 
 
 def update(block: Block):
-    pass
-
-
-def check_collision(block: Block, ball: Ball):
-    if block.rect.colliderect(ball.rect):
-        block.remove = True
+    return
