@@ -5,6 +5,9 @@ from geometry.vector import (
 import pygame
 
 
+COLOURS = ((0,255,0), (255,215,0), (138,43,226))
+
+
 class Box:
 
     def __init__(self, x: float, y: int, width: int, height, colour: tuple=(255, 255, 255)):
