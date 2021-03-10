@@ -25,8 +25,7 @@ class Circle:
         self.colour = colour
 
 
-def change_velocity(obj: object, speed: int):
-    obj.speed = speed
-    return (normalize(obj.velocity) * speed)
+def change_velocity(velocity: Vector, speed: int):
+    return normalize(velocity) * speed
 
 

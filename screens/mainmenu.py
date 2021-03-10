@@ -1,14 +1,21 @@
 import pygame
 
 import screens.game as game
-from objects import screen as _scrn
+
+from objects.screen import Screen
+
+BACKGROUND_COLOUR = (255, 255, 255)
+
+
+def draw(screen: Screen):
+    screen.surface.fill(color=BACKGROUND_COLOUR)
 
 
 def loop():
     clock = pygame.time.Clock()
     running = True
     dt = 0.0
-    screen = _scrn.Screen(0, 0, 800, 600)
+    screen = Screen(0, 0, 800, 600)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE:
@@ -17,7 +24,7 @@ def loop():
                 game.loop(screen)
         # update
         # draw
-        _scrn.draw(screen)
+        draw(screen)
         # flip
         pygame.display.flip()
         # count frames

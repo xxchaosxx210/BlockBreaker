@@ -1,4 +1,3 @@
-import pygame
 import random
 import math
 
@@ -29,10 +28,6 @@ def reset(ball: Ball):
     ball.speed = BALL_DEFAULT_SPEED
     ball.velocity = Vector(0, 0)
     ball.position = Vector(0, 0)
-
-
-def draw(ball: Ball, screen: Screen):
-    pygame.draw.circle(screen.surface, ball.colour, (ball.rect.x, ball.rect.y), ball.radius)
 
 
 def attach_to_paddle(ball: Ball, paddle: Paddle, screen: Screen):

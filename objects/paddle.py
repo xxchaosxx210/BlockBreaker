@@ -11,6 +11,8 @@ from objects.commons import (
 )
 from objects.screen import Screen
 
+PADDLE_MIN_SPEED = 20
+
 
 class Paddle(Box):
 
@@ -30,10 +32,6 @@ def update(paddle: Paddle, screen: Screen, dt: float):
     check_boundaries(paddle, screen)
 
 
-def draw(paddle: Paddle, screen: Screen):
-    screen.surface.fill(rect=paddle.rect, color=paddle.colour)
-
-
 def on_key_down(paddle: Paddle, key: int):
     if key == pygame.K_LEFT:
         paddle.approach.x = -paddle.top_speed
@@ -50,8 +48,8 @@ def on_key_up(paddle: Paddle, key: int):
 
 def reset(paddle: Paddle, screen: Screen):
     paddle.velocity = Vector(0, 0)
-    x = (screen.rect.width/2) - (paddle.rect.width/2)
-    y = (screen.rect.height-paddle.rect.height)
+    x = (screen.rect.width / 2) - (paddle.rect.width / 2)
+    y = (screen.rect.height - paddle.rect.height)
     paddle.position = Vector(x, y)
     paddle.approach = Vector(0, 0)
 
@@ -61,9 +59,9 @@ def check_boundaries(paddle: Paddle, screen: Screen):
         paddle.rect.x = 0
         paddle.position.x = paddle.rect.x
         paddle.velocity.x *= -1
-        paddle.velocity = change_velocity(paddle, 20)
-    if paddle.rect.x > screen.rect.width-paddle.rect.width:
-        paddle.rect.x = screen.rect.width-paddle.rect.width
+        paddle.velocity = change_velocity(paddle.velocity, PADDLE_MIN_SPEED)
+    if paddle.rect.x > screen.rect.width - paddle.rect.width:
+        paddle.rect.x = screen.rect.width - paddle.rect.width
         paddle.position.x = paddle.rect.x
         paddle.velocity.x *= -1
-        paddle.velocity = change_velocity(paddle, 20)
+        paddle.velocity = change_velocity(paddle.velocity, PADDLE_MIN_SPEED)

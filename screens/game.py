@@ -2,13 +2,19 @@ import pygame
 
 from objects import (
     ball as _ball,
-    screen as _scrn,
     paddle as _paddle
 )
 from objects.commons import change_velocity
+from objects.screen import Screen
 
 
-def loop(screen: _scrn.Screen):
+def draw(screen: Screen, ball: _ball.Ball, paddle: _paddle.Paddle):
+    screen.surface.fill(color=(0, 0, 0))
+    pygame.draw.circle(screen.surface, ball.colour, (ball.rect.x, ball.rect.y), ball.radius)
+    screen.surface.fill(rect=paddle.rect, color=paddle.colour)
+
+
+def loop(screen: Screen):
     clock = pygame.time.Clock()
     running = True
     dt = 0.0
@@ -23,7 +29,8 @@ def loop(screen: _scrn.Screen):
                 if not ball.moving:
                     _ball.start(ball, paddle)
                 else:
-                    ball.velocity = change_velocity(ball, ball.speed * 2)
+                    ball.speed *= 2
+                    ball.velocity = change_velocity(ball.velocity, ball.speed)
             elif event.type == pygame.KEYUP:
                 _paddle.on_key_up(paddle, event.key)
             elif event.type == pygame.KEYDOWN:
@@ -32,13 +39,10 @@ def loop(screen: _scrn.Screen):
         _paddle.update(paddle, screen, dt)
         _ball.update(ball, paddle, screen, dt)
         # draw
-        _scrn.draw(screen)
-        _paddle.draw(paddle, screen)
-        _ball.draw(ball, screen)
+        draw(screen, ball, paddle)
         if ball.fallen:
             _paddle.reset(paddle, screen)
             _ball.reset(ball)
-        # flip
         pygame.display.flip()
         # count frames
         dt = 0.01 * clock.tick(screen.frame_rate)
