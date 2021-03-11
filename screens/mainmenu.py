@@ -5,6 +5,7 @@ import screens.game as game
 from objects.screen import Screen
 import resources.font as font
 
+from resources.spritesheet import SpriteSheet
 
 BACKGROUND_COLOUR = (100, 0, 100)
 
@@ -22,6 +23,8 @@ def loop():
     running = True
     dt = 0.0
     screen = Screen(0, 0, 800, 600)
+    # create our sprite sheets after video mode been init
+    SpriteSheet.load_all()
     title = font.Font(10, 10, font.H1_FONT, (255, 255, 255), "BlockBreaker")
     while running:
         for event in pygame.event.get():

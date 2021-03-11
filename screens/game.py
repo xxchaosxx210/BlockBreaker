@@ -14,7 +14,7 @@ def draw(screen: Screen, ball: _ball.Ball, paddle: _paddle.Paddle, blocks: list)
     pygame.draw.circle(screen.surface, ball.colour, (ball.rect.x, ball.rect.y), ball.radius)
     screen.surface.blit(paddle.surface, paddle.rect)
     for block in blocks:
-        screen.surface.fill(rect=block.rect, color=block.colour)
+        screen.surface.blit(block.surface, block.rect)
 
 
 def remove_dead_blocks(blocks: list):
@@ -29,8 +29,7 @@ def loop(screen: Screen):
     dt = 0.0
     paddle = _paddle.Paddle(0, 0, 100, 20)
     ball = _ball.Ball(0, 0, 5)
-    blocks = [_block.Block((screen.rect.width/2)-150, 50, 300, 40, False, True),
-              _block.Block(10, 50, 50, 40, False, True)]
+    blocks = _block.generate_random_blocks()
     _paddle.reset(paddle, screen)
     while running:
         for event in pygame.event.get():
@@ -49,15 +48,12 @@ def loop(screen: Screen):
         # update
         _paddle.update(paddle, screen, dt)
         _ball.update(ball, paddle, screen, blocks, dt)
-        for block in blocks:
-            _block.update(block)
         # draw
         draw(screen, ball, paddle, blocks)
         if ball.fallen:
             _paddle.reset(paddle, screen)
             _ball.reset(ball)
-            blocks = [_block.Block((screen.rect.width / 2) - 150, 50, 300, 40, False, True),
-                      _block.Block(10, 50, 50, 40, False, True)]
+            blocks = _block.generate_random_blocks()
         pygame.display.flip()
         # count frames
         dt = 0.01 * clock.tick(screen.frame_rate)
