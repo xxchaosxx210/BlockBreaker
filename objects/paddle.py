@@ -20,11 +20,12 @@ class Paddle(Box):
         super().__init__(x, y, width, height, colour)
         self.approach = Vector(0, 0)
         self.top_speed = 300
+        self.drag = 30
 
 
 def update(paddle: Paddle, screen: Screen, dt: float):
-    paddle.velocity.x = approach(paddle.approach.x, paddle.velocity.x, dt * 30)
-    paddle.velocity.y = approach(paddle.approach.y, paddle.velocity.y, dt * 30)
+    paddle.velocity.x = approach(paddle.approach.x, paddle.velocity.x, dt * paddle.drag)
+    paddle.velocity.y = approach(paddle.approach.y, paddle.velocity.y, dt * paddle.drag)
     paddle.position = paddle.position + paddle.velocity * dt
     paddle.velocity = paddle.velocity + -4 * dt
     paddle.rect.x = paddle.position.x
@@ -44,6 +45,9 @@ def on_key_up(paddle: Paddle, key: int):
         paddle.approach.x = 0
     if key == pygame.K_LEFT:
         paddle.approach.x = 0
+    if key == pygame.K_1:
+        #paddle.top_speed *= 2
+        paddle.drag = 90
 
 
 def reset(paddle: Paddle, screen: Screen):

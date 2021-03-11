@@ -5,14 +5,14 @@ from geometry.vector import (
 import pygame
 
 
-COLOURS = ((0,255,0), (255,215,0), (138,43,226))
+COLOURS = ((0,255,0), (255,0,0), (138,43,255))
 
 
 def flip_colour(r: int, g: int, b: int):
     return (
-        abs(r-50),
-        abs(g-50),
-        abs(b-50)
+        abs(r/1.4),
+        abs(g/1.4),
+        abs(b/1.4)
     )
 
 

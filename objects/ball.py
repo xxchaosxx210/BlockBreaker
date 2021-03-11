@@ -63,7 +63,7 @@ def update(ball: Ball, paddle: Paddle, screen: Screen, blocks: list, dt: float):
 
 def hit_block(ball: Ball, block: Block):
     if block.rect.colliderect(ball.rect):
-        collision_threshold = 5
+        collision_threshold = 10
         # Ball hit top of block. Ignore collision if ball is heading in other direction
         block_top_hit = abs(ball.rect.bottom - block.rect.top)
         if block_top_hit < collision_threshold and ball.velocity.y > 0:
