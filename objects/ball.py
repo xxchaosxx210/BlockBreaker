@@ -1,5 +1,6 @@
 import random
 import math
+import pygame
 
 from geometry.vector import (
     Vector,
@@ -38,7 +39,7 @@ def reset(ball: Ball):
 def attach_to_paddle(ball: Ball, paddle: Paddle, screen: Screen):
     ball_center = (paddle.rect.width/2)-ball.radius
     x = paddle.position.x + ball_center
-    y = paddle.rect.top - 2
+    y = paddle.rect.top - 10
     ball.position = Vector(x, y)
     ball.rect.x = ball.position.x
     ball.rect.y = ball.position.y

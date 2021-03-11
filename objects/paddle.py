@@ -21,6 +21,8 @@ class Paddle(Box):
         self.approach = Vector(0, 0)
         self.top_speed = 300
         self.drag = 30
+        self.surface = pygame.image.load(".\\resources\\images\\paddle.png").convert_alpha()
+        self.rect = self.surface.get_rect()
 
 
 def update(paddle: Paddle, screen: Screen, dt: float):

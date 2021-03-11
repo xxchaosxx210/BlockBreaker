@@ -12,7 +12,7 @@ from objects.screen import Screen
 def draw(screen: Screen, ball: _ball.Ball, paddle: _paddle.Paddle, blocks: list):
     screen.surface.fill(color=(0, 0, 0))
     pygame.draw.circle(screen.surface, ball.colour, (ball.rect.x, ball.rect.y), ball.radius)
-    screen.surface.fill(rect=paddle.rect, color=paddle.colour)
+    screen.surface.blit(paddle.surface, paddle.rect)
     for block in blocks:
         screen.surface.fill(rect=block.rect, color=block.colour)
 
