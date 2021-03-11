@@ -12,7 +12,6 @@ from objects.commons import (
     flip_colour
 )
 from objects.paddle import Paddle
-from objects.screen import Screen
 from objects.block import Block
 from objects.block import decrement_health
 
@@ -21,11 +20,11 @@ BALL_DEFAULT_SPEED = 50
 
 class Ball(Circle):
 
-    def __init__(self, x, y, radius, colour=(255,255,255)):
+    def __init__(self, x, y, radius, colour=(255, 255, 255)):
         super().__init__(x, y, radius, colour=colour)
         self.moving = False
         self.fallen = False
-        self.speed= BALL_DEFAULT_SPEED
+        self.speed = BALL_DEFAULT_SPEED
 
 
 def reset(ball: Ball):
@@ -36,8 +35,8 @@ def reset(ball: Ball):
     ball.position = Vector(0, 0)
 
 
-def attach_to_paddle(ball: Ball, paddle: Paddle, screen: Screen):
-    ball_center = (paddle.rect.width/2)-ball.radius
+def attach_to_paddle(ball: Ball, paddle: Paddle):
+    ball_center = (paddle.rect.width / 2) - ball.radius
     x = paddle.position.x + ball_center
     y = paddle.rect.top - 10
     ball.position = Vector(x, y)
@@ -45,17 +44,17 @@ def attach_to_paddle(ball: Ball, paddle: Paddle, screen: Screen):
     ball.rect.y = ball.position.y
 
 
-def update(ball: Ball, paddle: Paddle, screen: Screen, blocks: list, dt: float):
+def update(ball: Ball, paddle: Paddle, game_rect: pygame.rect.Rect, blocks: list, dt: float):
     if ball.moving:
         ball.position = ball.position + ball.velocity * dt
     else:
-        attach_to_paddle(ball, paddle, screen)
+        attach_to_paddle(ball, paddle)
     ball.rect.x = ball.position.x
     ball.rect.y = ball.position.y
     # check if paddle has hit ball
     if not been_hit(ball, paddle):
         # keep the ball within the screen area
-        check_boundaries(ball, screen)
+        check_boundaries(ball, game_rect)
         # check if ball has hit a block
         for block in blocks:
             if hit_block(ball, block):
@@ -102,10 +101,10 @@ def been_hit(ball: Ball, paddle: Paddle):
     Returns:
         [bool]: returns True if Ball benn hit
     """
-    collision_threasold = 15
+    collision_threshold = 15
     if ball.rect.colliderect(paddle.rect) and ball.velocity.y > 0.0:
-        ontop = abs(ball.rect.bottom-paddle.rect.top)
-        if ontop < collision_threasold:
+        ontop = abs(ball.rect.bottom - paddle.rect.top)
+        if ontop < collision_threshold:
             ball.velocity.y = -ball.velocity.y
         else:
             ball.velocity.x = -ball.velocity.x
@@ -113,25 +112,25 @@ def been_hit(ball: Ball, paddle: Paddle):
     return False
 
 
-def check_boundaries(ball: Ball, screen: Screen):
+def check_boundaries(ball: Ball, game_rect: pygame.rect.Rect):
     """make sure the ball bounces off the walls and falls if hit the floor
 
     Args:
-        ball (Ball):
-        screen (Screen):
+        game_rect: game rect object
+        ball: Ball object
     """
     threshold = 5
-    if ball.rect.left < threshold and ball.velocity.x < 0.0:
+    if ball.rect.left < game_rect.x + threshold and ball.velocity.x < 0.0:
         ball.velocity.x = -ball.velocity.x
-    if ball.rect.right > screen.rect.width-threshold and ball.velocity.x > 0.0:
+    if ball.rect.right > game_rect.width - threshold and ball.velocity.x > 0.0:
         ball.velocity.x = -ball.velocity.x
-    if ball.rect.top < threshold and ball.velocity.y < 0.0:
+    if ball.rect.top < game_rect.y + threshold and ball.velocity.y < 0.0:
         ball.velocity.y = -ball.velocity.y
-    if ball.rect.top > screen.rect.height+100:
+    if ball.rect.top > game_rect.height + 100:
         ball.fallen = True
 
 
-def new_angled_velocity(ball: Ball):
+def new_angled_velocity():
     angles = [float(x) for x in range(120, 150, 1)]
     angles.extend([float(x) for x in range(30, 50, 1)])
     angle = random.choice(angles)
@@ -140,8 +139,8 @@ def new_angled_velocity(ball: Ball):
     return normalize(Vector(x, y))
 
 
-def start(ball: Ball, paddle: Paddle):
-    direction = new_angled_velocity(ball)
+def start(ball: Ball):
+    direction = new_angled_velocity()
     ball.velocity = ball.velocity + direction * ball.speed
     ball.moving = True
     ball.fallen = False

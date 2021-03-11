@@ -29,3 +29,9 @@ def decrement_health(block: Block):
 
 def generate_random_blocks():
     return list(map(lambda x: Block(x, 100, False, True, random.choice(COLOUR_KEYS)), range(40, 660, 40)))
+
+
+def remove_dead_blocks(blocks: list):
+    for block in reversed(blocks):
+        if block.health <= 0:
+            blocks.remove(block)
