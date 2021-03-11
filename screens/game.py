@@ -7,17 +7,20 @@ from objects import (
 )
 from objects.commons import change_velocity
 from objects.screen import Screen
+import resources.tile as tile
 
-
-class GameScreen:
-
-    def __init__(self):
-        self.surface = pygame.Surface
+BORDER = 20
+BORDER_COLOUR = (112, 128, 144)
 
 
 def draw(screen: Screen, ball: _ball.Ball, paddle: _paddle.Paddle, blocks: list):
-    screen.surface.fill(color=(255, 255, 255))
-    screen.surface.fill(color=(0, 0, 0), rect=screen.rect)
+    screen.surface.fill(color=(0, 0, 0))
+    points = (
+        (screen.rect.left, screen.rect.bottom), (screen.rect.left, screen.rect.top),
+        (screen.rect.left, screen.rect.top), (screen.rect.right, screen.rect.top),
+        (screen.rect.right, screen.rect.top), (screen.rect.right, screen.rect.bottom)
+    )
+    pygame.draw.lines(screen.surface, BORDER_COLOUR, False, points, BORDER)
     pygame.draw.circle(screen.surface, ball.colour, (ball.rect.x, ball.rect.y), ball.radius)
     screen.surface.blit(paddle.surface, paddle.rect)
     for block in blocks:
@@ -30,8 +33,9 @@ def loop(screen: Screen):
     dt = 0.0
     paddle = _paddle.Paddle(0, 0, 100, 20)
     ball = _ball.Ball(0, 0, 5)
-    game_rect = pygame.rect.Rect(screen.rect.x + 20, screen.rect.y + 20, screen.rect.right - 20, screen.rect.height)
-    blocks = _block.generate_random_blocks()
+    game_rect = pygame.rect.Rect(screen.rect.x + BORDER, screen.rect.y + BORDER,
+                                 screen.rect.right - BORDER, screen.rect.height)
+    blocks = tile.load_map(tile.LEVEL_ONE_MAP)
     _paddle.reset(paddle, game_rect)
     while running:
         for event in pygame.event.get():
@@ -55,7 +59,7 @@ def loop(screen: Screen):
         if ball.fallen:
             _paddle.reset(paddle, game_rect)
             _ball.reset(ball)
-            blocks = _block.generate_random_blocks()
+            blocks = tile.load_map(tile.LEVEL_ONE_MAP)
         pygame.display.flip()
         # count frames
         dt = 0.01 * clock.tick(screen.frame_rate)

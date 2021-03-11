@@ -14,7 +14,7 @@ class Block:
         self.velocity = Vector(0, 0)
         self.moving = moving
         self.breakable = breakable
-        self.health = 3
+        self.health = 1
         self.damage = 1
         self.colour = colour
         self.surface = SpriteSheet.block[self.colour].parse(0)
