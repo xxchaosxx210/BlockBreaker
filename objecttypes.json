@@ -1,0 +1,23 @@
+[
+    {
+        "color": "#ffa0a0a4",
+        "name": "block",
+        "properties": [
+            {
+                "name": "border",
+                "type": "bool",
+                "value": false
+            },
+            {
+                "name": "breakable",
+                "type": "bool",
+                "value": false
+            },
+            {
+                "name": "moving",
+                "type": "bool",
+                "value": false
+            }
+        ]
+    }
+]
