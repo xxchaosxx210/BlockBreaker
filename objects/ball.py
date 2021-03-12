@@ -38,7 +38,7 @@ def reset(ball: Ball):
 def attach_to_paddle(ball: Ball, paddle: Paddle):
     ball_center = (paddle.rect.width / 2) - ball.radius
     x = paddle.position.x + ball_center
-    y = paddle.rect.top - 10
+    y = paddle.rect.top - ball.radius
     ball.position = Vector(x, y)
     ball.rect.x = ball.position.x
     ball.rect.y = ball.position.y
