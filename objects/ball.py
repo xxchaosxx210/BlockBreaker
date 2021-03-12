@@ -53,11 +53,12 @@ def update(ball: Ball, paddle: Paddle, game_rect: pygame.rect.Rect, blocks: list
     ball.rect.y = ball.position.y
     # check if paddle has hit ball
     if not been_hit(ball, paddle):
-        # keep the ball within the screen area
         check_boundaries(ball, game_rect)
+        if ball.fallen:
+            return
         # check if ball has hit a block
         for block in blocks:
-            if hit_block(ball, block):
+            if not block.border and hit_block(ball, block):
                 break
 
 

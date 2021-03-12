@@ -24,3 +24,11 @@ class SpriteSheet:
                                                ".\\resources\\images\\red_block.json")
         SpriteSheet.block["green"] = SpriteSheet(".\\resources\\images\\green_block.png",
                                                  ".\\resources\\images\\green_block.json")
+        SpriteSheet.block["blue"] = SpriteSheet(".\\resources\\images\\blue_block.png",
+                                                ".\\resources\\images\\blue_block.json")
+        SpriteSheet.block["pink"] = SpriteSheet(".\\resources\\images\\pink_block.png",
+                                                ".\\resources\\images\\pink_block.json")
+        SpriteSheet.block["orange"] = SpriteSheet(".\\resources\\images\\orange_block.png",
+                                                  ".\\resources\\images\\orange_block.json")
+        SpriteSheet.block["grey"] = SpriteSheet(".\\resources\\images\\grey_block.png",
+                                                ".\\resources\\images\\grey_block.json")

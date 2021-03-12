@@ -22,7 +22,7 @@ def loop():
     clock = pygame.time.Clock()
     running = True
     dt = 0.0
-    screen = Screen(0, 0, 800, 600)
+    screen = Screen(0, 0, 1280, 720)
     # create our sprite sheets after video mode been init
     SpriteSheet.load_all()
     title = font.Font(10, 10, font.H1_FONT, (255, 255, 255), "BlockBreaker")
