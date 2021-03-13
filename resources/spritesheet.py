@@ -32,3 +32,5 @@ class SpriteSheet:
                                                   ".\\resources\\images\\orange_block.json")
         SpriteSheet.block["grey"] = SpriteSheet(".\\resources\\images\\grey_block.png",
                                                 ".\\resources\\images\\grey_block.json")
+        SpriteSheet.block["background"] = SpriteSheet(".\\resources\\images\\background.png",
+                                                      ".\\resources\\images\\background.json")

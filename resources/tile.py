@@ -2,6 +2,11 @@ import pygame
 import json
 from resources.spritesheet import SpriteSheet
 import os
+import re
+
+
+# Use this regular expression to split the tileset key into spritesheet name and offset
+TILE_SET_SPLIT = re.compile(r'^(.+?)([0-9]+)$')
 
 LEVELS_PATH_NAME = os.path.join("resources", "levels")
 
@@ -39,17 +44,17 @@ def load_game_background(level: LevelManager):
     x, y = (0, 0)
     col = 0
     bck_layer = level.data["layers"][0]
-    background_tile = pygame.image.load(
-        f".{os.path.sep}resources{os.path.sep}images{os.path.sep}background_tile.png").convert()
     for gid in bck_layer["data"]:
-        if gid == level.tile_sets["background0"]:
-            bck_surface.blit(background_tile, pygame.rect.Rect(x, y, img.get_width(), img.get_height()))
-        elif gid == level.tile_sets["grey0"]:
-            img = SpriteSheet.block["grey"].parse(0)
-            bck_surface.blit(img, pygame.rect.Rect(x, y, img.get_width(), img.get_height()))
-        elif gid == level.tile_sets["grey1"]:
-            img = SpriteSheet.block["grey"].parse(1)
-            bck_surface.blit(img, pygame.rect.Rect(x, y, img.get_width(), img.get_height()))
+        # due to my lack of understanding of the Tile App Ive constructed a hack to associate tiled generated data
+        # GIDs with my spritesheet offsets this allows me to load in large tilesets and not have to code every tile
+        # if statement by hand
+        for tile_key, tile_value in level.tile_sets.items():
+            if gid == level.tile_sets[tile_key]:
+                match = TILE_SET_SPLIT.match(tile_key)
+                tile_name, tile_offset = (match.group(1), int(match.group(2)))
+                img = SpriteSheet.block[tile_name].parse(tile_offset)
+                bck_surface.blit(img, pygame.rect.Rect(x, y, img.get_width(), img.get_height()))
+                break
         x += level.data["tilewidth"]
         col += 1
         if col >= level.data["width"]:
