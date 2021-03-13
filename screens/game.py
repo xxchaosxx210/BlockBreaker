@@ -29,12 +29,10 @@ def loop(screen: Screen):
     ball = _ball.Ball(0, 0, 6)
     game_rect = pygame.rect.Rect(screen.rect.x + BORDER, screen.rect.y + BORDER,
                                  screen.rect.right - BORDER, screen.rect.height)
-    blocks = []
-    level_mgr = tile.LevelManager()
-    tile.load_first_level(level_mgr)
-    screen.background = tile.load_game_background(level_mgr)
     _paddle.reset(paddle, game_rect)
     lives = 3
+    level_mgr = tile.LevelManager()
+    screen.background, blocks = tile.load_first_level(level_mgr)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE:

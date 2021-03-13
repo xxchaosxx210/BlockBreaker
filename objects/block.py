@@ -13,19 +13,18 @@ class Block:
     Blue: 1 hit
     """
 
-    def __init__(self, x: float, y: float, moving: bool, breakable: bool,
-                 colour: str, colour_offset: int = 0, border: bool = False):
+    def __init__(self, x: float, y: float, colour: str, colour_offset: int,
+                 moving: bool, breakable: bool):
         self.rect = pygame.rect.Rect(x, y, 40, 40)
         self.position = Vector(x, y)
         self.velocity = Vector(0, 0)
         self.moving = moving
         self.breakable = breakable
-        self.border = border
         self.health = define_health(colour)
         self.damage = 1
-        self.colour = colour
-        self.surface = SpriteSheet.block[self.colour].parse(colour_offset)
+        self.surface = SpriteSheet.block[colour].parse(colour_offset)
         self.offset = 0
+        self.colour = colour
 
 
 def define_health(colour: str):

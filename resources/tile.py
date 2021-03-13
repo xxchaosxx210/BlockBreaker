@@ -4,6 +4,8 @@ from resources.spritesheet import SpriteSheet
 import os
 import re
 
+from objects.block import Block
+
 
 # Use this regular expression to split the tileset key into spritesheet name and offset
 TILE_SET_SPLIT = re.compile(r'^(.+?)([0-9]+)$')
@@ -64,14 +66,30 @@ def load_game_background(level: LevelManager):
     return bck_surface
 
 
-def load_level(level: LevelManager, level_file: str):
+def load_level(level_manager: LevelManager, level_file: str):
     data = _load_json(level_file)
     if data:
-        level.width = data["tilewidth"] * data["width"]
-        level.height = data["tileheight"] * data["height"]
-        level.data = data
-        level.tile_sets = load_gids(data["tilesets"])
-    return True
+        level_manager.width = data["tilewidth"] * data["width"]
+        level_manager.height = data["tileheight"] * data["height"]
+        level_manager.data = data
+        level_manager.tile_sets = load_gids(data["tilesets"])
+        background_surface = load_game_background(level_manager)
+        blocks = load_blocks(level_manager)
+        return background_surface, blocks
+    return None
+
+
+def load_first_level(level_manager: LevelManager):
+    return load_level(level_manager, level_manager.paths[0])
+
+
+def load_next_level(level_manager: LevelManager):
+    try:
+        load_level(level_manager, level_manager.paths[level_manager.offset+1])
+        level_manager.offset += 1
+        return True
+    except IndexError:
+        return False
 
 
 def load_gids(tile_sets: list):
@@ -100,18 +118,24 @@ def _load_json(filename: str):
         return json.loads(fp.read())
 
 
-def load_first_level(level_manager: LevelManager):
-    return load_level(level_manager, level_manager.paths[0])
-
-
-def load_next_level(level_manager: LevelManager):
-    try:
-        load_level(level_manager, level_manager.paths[level_manager.offset+1])
-        level_manager.offset += 1
-        return True
-    except IndexError:
-        return False
-
+def load_blocks(level_manager: LevelManager):
+    blocks = []
+    x, y = (0, 0)
+    col = 0
+    layer = list(filter(lambda l: l["name"] == "blocks", level_manager.data["layers"]))[0]
+    for gid in layer["data"]:
+        for key, value in level_manager.tile_sets.items():
+            if gid == level_manager.tile_sets[key]:
+                match = TILE_SET_SPLIT.match(key)
+                tile_name, tile_offset = (match.group(1), int(match.group(2)))
+                blocks.append(Block(x, y, tile_name, tile_offset, False, True))
+        x += level_manager.data["tilewidth"]
+        col += 1
+        if col >= level_manager.data["width"]:
+            x = 0
+            col = 0
+            y += level_manager.data["tileheight"]
+    return blocks
 
 # def load_blocks(layer: dict):
 #     blocks = []

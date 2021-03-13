@@ -58,7 +58,7 @@ def update(ball: Ball, paddle: Paddle, game_rect: pygame.rect.Rect, blocks: list
             return
         # check if ball has hit a block
         for block in blocks:
-            if not block.border and hit_block(ball, block):
+            if hit_block(ball, block):
                 break
 
 
