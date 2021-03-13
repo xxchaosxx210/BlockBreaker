@@ -1,0 +1,19 @@
+{ "columns":1,
+ "image":"..\/images\/ball.png",
+ "imageheight":12,
+ "imagewidth":12,
+ "margin":0,
+ "name":"ball",
+ "spacing":0,
+ "tilecount":1,
+ "tiledversion":"1.4.3",
+ "tileheight":12,
+ "tiles":[
+        {
+         "id":0,
+         "type":"ball"
+        }],
+ "tilewidth":12,
+ "type":"tileset",
+ "version":1.4
+}

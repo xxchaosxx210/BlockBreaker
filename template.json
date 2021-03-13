@@ -4,7 +4,7 @@
      "export":
         {
          "format":"json",
-         "target":"1.json"
+         "target":"resources\/levels\/1.json"
         }
     },
  "height":18,
@@ -55,19 +55,19 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"..\/tilesets\/background_tile.json"
+         "source":"background_tile.json"
         }, 
         {
          "firstgid":2,
-         "source":"..\/tilesets\/grey_block.json"
+         "source":"grey_block.json"
         }, 
         {
          "firstgid":5,
-         "source":"..\/tilesets\/paddle.json"
+         "source":"paddle.json"
         }, 
         {
          "firstgid":6,
-         "source":"..\/tilesets\/ball.json"
+         "source":"ball.json"
         }],
  "tilewidth":40,
  "type":"map",

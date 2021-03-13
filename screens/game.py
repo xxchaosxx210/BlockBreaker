@@ -14,7 +14,7 @@ BORDER_COLOUR = (112, 128, 144)
 
 
 def draw(screen: Screen, ball: _ball.Ball, paddle: _paddle.Paddle, blocks: list):
-    screen.surface.fill(color=(10, 10, 10))
+    screen.surface.blit(screen.background, screen.rect)
     pygame.draw.circle(screen.surface, ball.colour, (ball.rect.x, ball.rect.y), ball.radius)
     screen.surface.blit(paddle.surface, paddle.rect)
     for block in blocks:
@@ -29,8 +29,10 @@ def loop(screen: Screen):
     ball = _ball.Ball(0, 0, 6)
     game_rect = pygame.rect.Rect(screen.rect.x + BORDER, screen.rect.y + BORDER,
                                  screen.rect.right - BORDER, screen.rect.height)
-    tile.LEVEL_MAPS["offset"] = 0
-    blocks = tile.load_level(tile.LEVEL_MAPS["file_paths"][tile.LEVEL_MAPS["offset"]])
+    blocks = []
+    level_mgr = tile.LevelManager()
+    tile.load_first_level(level_mgr)
+    screen.background = tile.load_game_background(level_mgr)
     _paddle.reset(paddle, game_rect)
     lives = 3
     while running:
@@ -69,10 +71,6 @@ def loop(screen: Screen):
         # Remove any collided blocks
         _block.remove_dead_blocks(blocks)
 
-        if not list(filter(lambda b: b.breakable, blocks)):
-            blocks = tile.load_next_level()
-            if not blocks:
-                running = False
-            else:
-                _paddle.reset(paddle, game_rect)
-                _ball.reset(ball)
+        # if not list(filter(lambda b: b.breakable, blocks)):
+        #     _paddle.reset(paddle, game_rect)
+        #     _ball.reset(ball)

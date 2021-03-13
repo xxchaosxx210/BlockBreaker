@@ -1,0 +1,19 @@
+{ "columns":1,
+ "image":"..\/images\/paddle.png",
+ "imageheight":30,
+ "imagewidth":115,
+ "margin":0,
+ "name":"paddle",
+ "spacing":0,
+ "tilecount":1,
+ "tiledversion":"1.4.3",
+ "tileheight":30,
+ "tiles":[
+        {
+         "id":0,
+         "type":"paddle"
+        }],
+ "tilewidth":115,
+ "type":"tileset",
+ "version":1.4
+}
