@@ -999,7 +999,7 @@
                         {
                          "name":"drag",
                          "type":"int",
-                         "value":30
+                         "value":80
                         }, 
                         {
                          "name":"top_speed",

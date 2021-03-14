@@ -48,6 +48,22 @@
                 "name": "moving",
                 "type": "bool",
                 "value": false
+            },
+            {
+                "name": "speed",
+                "type": "int",
+                "value": 0
+            }
+        ]
+    },
+    {
+        "color": "#ffa0a0a4",
+        "name": "end_move",
+        "properties": [
+            {
+                "name": "id",
+                "type": "int",
+                "value": 0
             }
         ]
     },

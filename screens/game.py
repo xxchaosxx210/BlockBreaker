@@ -52,6 +52,9 @@ def loop(screen: Screen):
         # update object positions check for collisions
         _paddle.update(paddle, game_rect, dt)
         _ball.update(ball, paddle, game_rect, blocks, dt)
+        for block in blocks:
+            if block.moving:
+                _block.update(block, dt)
 
         # draw objects to screen
         draw(screen, ball, paddle, blocks)

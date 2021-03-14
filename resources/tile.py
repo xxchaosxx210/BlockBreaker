@@ -144,6 +144,10 @@ def get_value_from_properties(name: str, default_value: object, properties: list
 def load_blocks(level_manager: LevelManager):
     blocks = []
     layer = list(filter(lambda l: l["name"] == "blocks", level_manager.data["layers"]))[0]
+    try:
+        movement_layer = list(filter(lambda l: l["name"] == "block_move", level_manager.data["layers"]))[0]
+    except IndexError:
+        movement_layer = {"objects": []}
     for b in layer["objects"]:
         properties = b.get("properties", [])
         breakable = get_value_from_properties("breakable", True, properties)
@@ -151,8 +155,36 @@ def load_blocks(level_manager: LevelManager):
         health = get_value_from_properties("health", 1, properties)
         colour_offset = get_value_from_properties("colour_offset", 0, properties)
         moving = get_value_from_properties("moving", False, properties)
-        blocks.append(Block(b["x"], b["y"], colour, colour_offset, moving, breakable, health))
+        _id = b["id"]
+        speed = get_value_from_properties("speed", 0, properties)
+        end_x, end_y = (0, 0)
+        if moving:
+            max_move = find_max_move_from_id(movement_layer["objects"], _id)
+            if max_move:
+                end_x = max_move["x"] + max_move["width"]
+                end_y = max_move["y"] + max_move["height"]
+        blocks.append(Block(b["x"], b["y"], _id, colour, colour_offset, moving, breakable, health,
+                            end_x, end_y, speed))
     return blocks
+
+
+def find_max_move_from_id(objects: list, block_id: int):
+    """
+
+    finds the block objects end position
+
+    Args:
+        objects: list of movement objects
+        block_id: the id associated with the blobk
+
+    Returns:
+        a movement dict with x, y and width, height coords for block max movement position
+    """
+    for move_object in objects:
+        _id = get_value_from_properties("id", 0, move_object["properties"])
+        if _id == block_id:
+            return move_object
+    return {}
 
 
 def load_paddle(level_manager: LevelManager):
