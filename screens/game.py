@@ -15,7 +15,7 @@ BORDER_COLOUR = (112, 128, 144)
 
 def draw(screen: Screen, ball: _ball.Ball, paddle: _paddle.Paddle, blocks: list):
     screen.surface.blit(screen.background, screen.rect)
-    pygame.draw.circle(screen.surface, ball.colour, (ball.rect.x, ball.rect.y), ball.radius)
+    screen.surface.blit(ball.surface, ball.rect)
     screen.surface.blit(paddle.surface, paddle.rect)
     for block in blocks:
         screen.surface.blit(block.surface, block.rect)
@@ -25,14 +25,11 @@ def loop(screen: Screen):
     clock = pygame.time.Clock()
     running = True
     dt = 0.0
-    paddle = _paddle.Paddle(0, 0, 100, 20)
-    ball = _ball.Ball(0, 0, 6)
     game_rect = pygame.rect.Rect(screen.rect.x + BORDER, screen.rect.y + BORDER,
                                  screen.rect.right - BORDER, screen.rect.height)
-    _paddle.reset(paddle, game_rect)
     lives = 3
     level_mgr = tile.LevelManager()
-    screen.background, blocks = tile.load_first_level(level_mgr)
+    screen.background, blocks, paddle, ball = tile.load_first_level(level_mgr)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE:
@@ -51,24 +48,30 @@ def loop(screen: Screen):
                 _paddle.on_key_up(paddle, event.key)
             elif event.type == pygame.KEYDOWN:
                 _paddle.on_key_down(paddle, event.key)
-        # update
+
+        # update object positions check for collisions
         _paddle.update(paddle, game_rect, dt)
         _ball.update(ball, paddle, game_rect, blocks, dt)
-        # draw
+
+        # draw objects to screen
         draw(screen, ball, paddle, blocks)
+
+        # check if ball has dropped off screen
         if ball.fallen:
-            _paddle.reset(paddle, game_rect)
+            _paddle.reset(paddle)
             _ball.reset(ball)
             lives -= 1
             if lives < 0:
                 running = False
         pygame.display.flip()
+
         # count frames
         dt = 0.01 * clock.tick(screen.frame_rate)
 
         # Remove any collided blocks
         _block.remove_dead_blocks(blocks)
 
+        # Check if level complete
         # if not list(filter(lambda b: b.breakable, blocks)):
         #     _paddle.reset(paddle, game_rect)
         #     _ball.reset(ball)

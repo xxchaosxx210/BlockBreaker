@@ -2,24 +2,24 @@ import pygame
 
 from geometry.vector import (
     Vector,
-    approach
+    approach,
+    copy
 )
 
-from objects.commons import (
-    Box,
-    change_velocity
-)
+from objects.commons import change_velocity
 
 PADDLE_MIN_SPEED = 20
 
 
-class Paddle(Box):
+class Paddle:
 
-    def __init__(self, x, y, width, height, colour: tuple = (100, 255, 255)):
-        super().__init__(x, y, width, height, colour)
+    def __init__(self, x: float, y: float, top_speed: int, drag: int):
+        self.position = Vector(x, y)
+        self.START_POSITION = copy(self.position)
+        self.velocity = Vector(0, 0)
         self.approach = Vector(0, 0)
-        self.top_speed = 300
-        self.drag = 30
+        self.top_speed = top_speed
+        self.drag = drag
         self.surface = pygame.image.load(".\\resources\\images\\paddle.png").convert_alpha()
         self.rect = self.surface.get_rect()
 
@@ -50,11 +50,9 @@ def on_key_up(paddle: Paddle, key: int):
         paddle.drag = 90
 
 
-def reset(paddle: Paddle, screen_rect: pygame.rect.Rect):
+def reset(paddle: Paddle):
     paddle.velocity = Vector(0, 0)
-    x = (screen_rect.width / 2) - (paddle.rect.width / 2)
-    y = (screen_rect.height - paddle.rect.height)
-    paddle.position = Vector(x, y)
+    paddle.position = copy(paddle.START_POSITION)
     paddle.approach = Vector(0, 0)
 
 

@@ -1,4 +1,12 @@
 { "columns":4,
+ "editorsettings":
+    {
+     "export":
+        {
+         "format":"",
+         "target":"."
+        }
+    },
  "image":"..\/images\/blue_block.png",
  "imageheight":42,
  "imagewidth":168,
@@ -13,9 +21,19 @@
          "id":0,
          "properties":[
                 {
+                 "name":"breakable",
+                 "type":"bool",
+                 "value":true
+                }, 
+                {
                  "name":"colour",
                  "type":"string",
-                 "value":"blue"
+                 "value":""
+                }, 
+                {
+                 "name":"moving",
+                 "type":"bool",
+                 "value":false
                 }],
          "type":"block"
         }, 
@@ -23,9 +41,19 @@
          "id":1,
          "properties":[
                 {
+                 "name":"breakable",
+                 "type":"bool",
+                 "value":true
+                }, 
+                {
                  "name":"colour",
                  "type":"string",
-                 "value":"blue"
+                 "value":""
+                }, 
+                {
+                 "name":"moving",
+                 "type":"bool",
+                 "value":false
                 }],
          "type":"block"
         }, 
@@ -33,9 +61,19 @@
          "id":2,
          "properties":[
                 {
+                 "name":"breakable",
+                 "type":"bool",
+                 "value":true
+                }, 
+                {
                  "name":"colour",
                  "type":"string",
-                 "value":"blue"
+                 "value":""
+                }, 
+                {
+                 "name":"moving",
+                 "type":"bool",
+                 "value":false
                 }],
          "type":"block"
         }, 
@@ -43,9 +81,19 @@
          "id":3,
          "properties":[
                 {
+                 "name":"breakable",
+                 "type":"bool",
+                 "value":true
+                }, 
+                {
                  "name":"colour",
                  "type":"string",
-                 "value":"blue"
+                 "value":""
+                }, 
+                {
+                 "name":"moving",
+                 "type":"bool",
+                 "value":false
                 }],
          "type":"block"
         }],

@@ -1,0 +1,70 @@
+[
+    {
+        "color": "#ffa0a0a4",
+        "name": "ball",
+        "properties": [
+            {
+                "name": "fallen",
+                "type": "bool",
+                "value": false
+            },
+            {
+                "name": "moving",
+                "type": "bool",
+                "value": false
+            },
+            {
+                "name": "speed",
+                "type": "int",
+                "value": 50
+            }
+        ]
+    },
+    {
+        "color": "#ffa0a0a4",
+        "name": "block",
+        "properties": [
+            {
+                "name": "breakable",
+                "type": "bool",
+                "value": true
+            },
+            {
+                "name": "colour",
+                "type": "string",
+                "value": ""
+            },
+            {
+                "name": "colour_offset",
+                "type": "int",
+                "value": 0
+            },
+            {
+                "name": "health",
+                "type": "int",
+                "value": 1
+            },
+            {
+                "name": "moving",
+                "type": "bool",
+                "value": false
+            }
+        ]
+    },
+    {
+        "color": "#ffa0a0a4",
+        "name": "paddle",
+        "properties": [
+            {
+                "name": "drag",
+                "type": "int",
+                "value": 30
+            },
+            {
+                "name": "top_speed",
+                "type": "int",
+                "value": 300
+            }
+        ]
+    }
+]

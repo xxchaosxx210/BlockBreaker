@@ -14,32 +14,17 @@ class Block:
     """
 
     def __init__(self, x: float, y: float, colour: str, colour_offset: int,
-                 moving: bool, breakable: bool):
+                 moving: bool, breakable: bool, health: int):
         self.rect = pygame.rect.Rect(x, y, 40, 40)
         self.position = Vector(x, y)
         self.velocity = Vector(0, 0)
         self.moving = moving
         self.breakable = breakable
-        self.health = define_health(colour)
+        self.health = health
         self.damage = 1
         self.surface = SpriteSheet.block[colour].parse(colour_offset)
         self.offset = 0
         self.colour = colour
-
-
-def define_health(colour: str):
-    if colour == "red":
-        return 3
-    elif colour == "pink":
-        return 3
-    elif colour == "orange":
-        return 2
-    elif colour == "green":
-        return 1
-    elif colour == "blue":
-        return 1
-    else:
-        return 1
 
 
 def decrement_health(block: Block):

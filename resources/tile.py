@@ -5,6 +5,8 @@ import os
 import re
 
 from objects.block import Block
+from objects.paddle import Paddle
+from objects.ball import Ball
 
 
 # Use this regular expression to split the tileset key into spritesheet name and offset
@@ -67,6 +69,18 @@ def load_game_background(level_manager: LevelManager):
 
 
 def load_level(level_manager: LevelManager, level_file: str):
+    """
+
+    Args:
+        level_manager:
+        level_file: filename to be loaded
+
+    Returns:
+        Tuple: (Surface, List, Paddle, Ball) - Surface with Background to be blitted
+                                             List of Block objects
+                                             Paddle object
+                                             Ball object
+    """
     data = _load_json(level_file)
     if data:
         level_manager.width = data["tilewidth"] * data["width"]
@@ -75,7 +89,9 @@ def load_level(level_manager: LevelManager, level_file: str):
         level_manager.tile_sets = load_global_ids(data["tilesets"])
         background_surface = load_game_background(level_manager)
         blocks = load_blocks(level_manager)
-        return background_surface, blocks
+        paddle = load_paddle(level_manager)
+        ball = load_ball(level_manager)
+        return background_surface, blocks, paddle, ball
     return None
 
 
@@ -118,21 +134,39 @@ def _load_json(filename: str):
         return json.loads(fp.read())
 
 
+def get_value_from_properties(name: str, default_value: object, properties: list):
+    for prop in properties:
+        if prop.get("name", "") == name:
+            return prop["value"]
+    return default_value
+
+
 def load_blocks(level_manager: LevelManager):
     blocks = []
-    x, y = (0, 0)
-    col = 0
     layer = list(filter(lambda l: l["name"] == "blocks", level_manager.data["layers"]))[0]
-    for gid in layer["data"]:
-        for key, value in level_manager.tile_sets.items():
-            if gid == level_manager.tile_sets[key]:
-                match = TILE_SET_SPLIT.match(key)
-                tile_name, tile_offset = (match.group(1), int(match.group(2)))
-                blocks.append(Block(x, y, tile_name, tile_offset, False, True))
-        x += level_manager.data["tilewidth"]
-        col += 1
-        if col >= level_manager.data["width"]:
-            x = 0
-            col = 0
-            y += level_manager.data["tileheight"]
+    for b in layer["objects"]:
+        properties = b.get("properties", [])
+        breakable = get_value_from_properties("breakable", True, properties)
+        colour = get_value_from_properties("colour", "blue", properties)
+        health = get_value_from_properties("health", 1, properties)
+        colour_offset = get_value_from_properties("colour_offset", 0, properties)
+        moving = get_value_from_properties("moving", False, properties)
+        blocks.append(Block(b["x"], b["y"], colour, colour_offset, moving, breakable, health))
     return blocks
+
+
+def load_paddle(level_manager: LevelManager):
+    layer = list(filter(lambda l: l["name"] == "player", level_manager.data["layers"]))[0]
+    paddle = list(filter(lambda obj: obj["name"] == "paddle", layer["objects"]))[0]
+    drag = get_value_from_properties("drag", 30, paddle["properties"])
+    top_speed = get_value_from_properties("top_speed", 300, paddle["properties"])
+    return Paddle(paddle["x"], paddle["y"]-paddle["height"], top_speed, drag)
+
+
+def load_ball(level_manager: LevelManager):
+    layer = list(filter(lambda l: l["name"] == "player", level_manager.data["layers"]))[0]
+    ball = list(filter(lambda obj: obj["name"] == "ball", layer["objects"]))[0]
+    speed = get_value_from_properties("speed", 50, ball["properties"])
+    fallen = get_value_from_properties("fallen", False, ball["properties"])
+    moving = get_value_from_properties("moving", False, ball["properties"])
+    return Ball(ball["x"], ball["y"]-ball["height"], fallen, moving, speed)

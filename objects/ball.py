@@ -4,41 +4,45 @@ import pygame
 
 from geometry.vector import (
     Vector,
-    normalize
+    normalize,
+    copy
 )
 
-from objects.commons import (
-    Circle,
-    flip_colour
-)
 from objects.paddle import Paddle
 from objects.block import Block
 from objects.block import decrement_health
 
-BALL_DEFAULT_SPEED = 50
 
+class Ball:
 
-class Ball(Circle):
-
-    def __init__(self, x, y, radius, colour=(255, 255, 255)):
-        super().__init__(x, y, radius, colour=colour)
-        self.moving = False
-        self.fallen = False
-        self.speed = BALL_DEFAULT_SPEED
+    def __init__(self, x, y, fallen, moving, speed):
+        self.surface = pygame.image.load(r".\/resources\/images\/ball.png").convert_alpha()
+        self.radius = self.surface.get_width() / 2
+        self.diameter = self.surface.get_width()
+        self.rect = self.surface.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.velocity = Vector(0, 0)
+        self.position = Vector(x, y)
+        self.moving = moving
+        self.fallen = fallen
+        self.DEFAULT_POSITION = copy(self.position)
+        self.DEFAULT_SPEED = speed
+        self.speed = speed
 
 
 def reset(ball: Ball):
     ball.moving = False
     ball.fallen = False
-    ball.speed = BALL_DEFAULT_SPEED
+    ball.speed = ball.DEFAULT_SPEED
     ball.velocity = Vector(0, 0)
-    ball.position = Vector(0, 0)
+    ball.position = copy(ball.DEFAULT_POSITION)
 
 
 def attach_to_paddle(ball: Ball, paddle: Paddle):
     ball_center = (paddle.rect.width / 2) - ball.radius
     x = paddle.position.x + ball_center
-    y = paddle.rect.top - ball.radius
+    y = ball.DEFAULT_POSITION.y
     ball.position = Vector(x, y)
     ball.rect.x = ball.position.x
     ball.rect.y = ball.position.y
