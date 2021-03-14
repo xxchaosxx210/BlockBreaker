@@ -1,0 +1,27 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+    },
+    "map.height": 18,
+    "map.lastUsedFormat": "json",
+    "map.tileHeight": 40,
+    "map.tileWidth": 40,
+    "map.width": 32,
+    "openFiles": [
+    ],
+    "project": "block-breaker.tiled-project",
+    "property.type": "string",
+    "recentFiles": [
+    ],
+    "tileset.lastUsedFormat": "json",
+    "tileset.tileSize": {
+        "height": 30,
+        "width": 115
+    }
+}

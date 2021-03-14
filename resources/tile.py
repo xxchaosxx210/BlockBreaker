@@ -33,36 +33,36 @@ def get_level_paths():
     return paths
 
 
-def load_game_background(level: LevelManager):
+def load_game_background(level_manager: LevelManager):
     """
 
     Args:
-        level: level object must load level before calling this function
+        level_manager: level_manager object must load level before calling this function
 
-        if image loaded then buffer stored in level.background_surface. Use that surface to blit every frame
+        if image loaded then buffer stored in level_manager.background_surface. Use that surface to blit every frame
 
     """
-    bck_surface = pygame.Surface((level.width, level.height))
+    bck_surface = pygame.Surface((level_manager.width, level_manager.height))
     x, y = (0, 0)
     col = 0
-    bck_layer = level.data["layers"][0]
-    for gid in bck_layer["data"]:
+    layer = list(filter(lambda l: l["name"] == "background", level_manager.data["layers"]))[0]
+    for gid in layer["data"]:
         # due to my lack of understanding of the Tile App Ive constructed a hack to associate tiled generated data
-        # GIDs with my spritesheet offsets this allows me to load in large tilesets and not have to code every tile
+        # Grid IDs with my spritesheet offsets this allows me to load in large tilesets and not have to code every tile
         # if statement by hand
-        for tile_key, tile_value in level.tile_sets.items():
-            if gid == level.tile_sets[tile_key]:
+        for tile_key, tile_value in level_manager.tile_sets.items():
+            if gid == level_manager.tile_sets[tile_key]:
                 match = TILE_SET_SPLIT.match(tile_key)
                 tile_name, tile_offset = (match.group(1), int(match.group(2)))
                 img = SpriteSheet.block[tile_name].parse(tile_offset)
                 bck_surface.blit(img, pygame.rect.Rect(x, y, img.get_width(), img.get_height()))
                 break
-        x += level.data["tilewidth"]
+        x += level_manager.data["tilewidth"]
         col += 1
-        if col >= level.data["width"]:
+        if col >= level_manager.data["width"]:
             x = 0
             col = 0
-            y += level.data["tileheight"]
+            y += level_manager.data["tileheight"]
     return bck_surface
 
 
@@ -72,7 +72,7 @@ def load_level(level_manager: LevelManager, level_file: str):
         level_manager.width = data["tilewidth"] * data["width"]
         level_manager.height = data["tileheight"] * data["height"]
         level_manager.data = data
-        level_manager.tile_sets = load_gids(data["tilesets"])
+        level_manager.tile_sets = load_global_ids(data["tilesets"])
         background_surface = load_game_background(level_manager)
         blocks = load_blocks(level_manager)
         return background_surface, blocks
@@ -92,7 +92,7 @@ def load_next_level(level_manager: LevelManager):
         return False
 
 
-def load_gids(tile_sets: list):
+def load_global_ids(tile_sets: list):
     """
 
     Args:
@@ -101,16 +101,16 @@ def load_gids(tile_sets: list):
     Returns:
         returns a dictionary containing tilename and GID which is used in the map file data list
     """
-    gids = {}
+    glob_ids = {}
     for tile_set in tile_sets:
         path = os.path.join(f".{os.path.sep}resources{os.path.sep}tilesets", os.path.split(tile_set["source"])[1])
         tile_info = json.loads(open(path, "r").read())
         tile_gid = tile_set["firstgid"]
         for index, tile in enumerate(tile_info["tiles"]):
             key = f"{tile_info['name']}{index}"
-            gids[key] = tile_gid
+            glob_ids[key] = tile_gid
             tile_gid += 1
-    return gids
+    return glob_ids
 
 
 def _load_json(filename: str):
@@ -136,40 +136,3 @@ def load_blocks(level_manager: LevelManager):
             col = 0
             y += level_manager.data["tileheight"]
     return blocks
-
-# def load_blocks(layer: dict):
-#     blocks = []
-#     x = 0
-#     y = 0
-#     tile_width = layer["tilewidth"]
-#     tile_height = layer["tileheight"]
-#     max_cols = layer["width"]
-#     max_rows = layer["height"]
-#     current_col = 0
-#     current_row = 0
-#     layer = layer["layers"][0]
-#     for tile in layer["data"]:
-#         if tile == RED_TILE:
-#             blocks.append(block.Block(x, y, False, True, "red"))
-#         elif tile == GREEN_TILE:
-#             blocks.append(block.Block(x, y, False, True, "green"))
-#         elif tile == ORANGE_TILE:
-#             blocks.append(block.Block(x, y, False, True, "orange"))
-#         elif tile == BLUE_TILE:
-#             blocks.append(block.Block(x, y, False, True, "blue"))
-#         elif tile == PINK_TILE:
-#             blocks.append(block.Block(x, y, False, True, "pink"))
-#         elif tile == GREY_TILE_1:
-#             blocks.append(block.Block(x, y, False, False, "grey", 0, True))
-#         elif tile == GREY_TILE_2:
-#             blocks.append(block.Block(x, y, False, False, "grey", 1, True))
-#         elif tile == GREY_TILE_3:
-#             blocks.append(block.Block(x, y, False, False, "grey", 2, False))
-#         x += tile_width
-#         current_col += 1
-#         if current_col >= max_cols:
-#             current_col = 0
-#             current_row += 1
-#             x = 0
-#             y += tile_height
-#     return blocks

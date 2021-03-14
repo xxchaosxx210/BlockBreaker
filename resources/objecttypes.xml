@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objecttypes>
+ <objecttype name="ball" color="#a0a0a4">
+  <property name="fallen" type="bool" default="false"/>
+  <property name="moving" type="bool" default="false"/>
+  <property name="speed" type="int" default="50"/>
+ </objecttype>
+ <objecttype name="block" color="#a0a0a4">
+  <property name="breakable" type="bool" default="true"/>
+  <property name="health" type="int" default="1"/>
+  <property name="moving" type="bool" default="false"/>
+ </objecttype>
+</objecttypes>

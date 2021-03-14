@@ -1,12 +1,4 @@
 { "columns":4,
- "editorsettings":
-    {
-     "export":
-        {
-         "format":"",
-         "target":"..\/..\/"
-        }
-    },
  "image":"..\/images\/blue_block.png",
  "imageheight":42,
  "imagewidth":168,
@@ -19,18 +11,42 @@
  "tiles":[
         {
          "id":0,
+         "properties":[
+                {
+                 "name":"colour",
+                 "type":"string",
+                 "value":"blue"
+                }],
          "type":"block"
         }, 
         {
          "id":1,
+         "properties":[
+                {
+                 "name":"colour",
+                 "type":"string",
+                 "value":"blue"
+                }],
          "type":"block"
         }, 
         {
          "id":2,
+         "properties":[
+                {
+                 "name":"colour",
+                 "type":"string",
+                 "value":"blue"
+                }],
          "type":"block"
         }, 
         {
          "id":3,
+         "properties":[
+                {
+                 "name":"colour",
+                 "type":"string",
+                 "value":"blue"
+                }],
          "type":"block"
         }],
  "tilewidth":40,

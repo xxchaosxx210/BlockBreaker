@@ -1,19 +1,11 @@
-{ "columns":4,
- "editorsettings":
-    {
-     "export":
-        {
-         "format":"",
-         "target":"."
-        }
-    },
- "image":"resources\/images\/orange_block.png",
+{ "columns":3,
+ "image":"..\/images\/grey_block.png",
  "imageheight":42,
- "imagewidth":168,
+ "imagewidth":126,
  "margin":0,
- "name":"orange",
+ "name":"grey",
  "spacing":0,
- "tilecount":4,
+ "tilecount":3,
  "tiledversion":"1.4.3",
  "tileheight":40,
  "tiles":[
@@ -27,10 +19,6 @@
         }, 
         {
          "id":2,
-         "type":"block"
-        }, 
-        {
-         "id":3,
          "type":"block"
         }],
  "tilewidth":40,
