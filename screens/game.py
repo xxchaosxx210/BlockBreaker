@@ -1,4 +1,5 @@
 import pygame
+import random
 
 from objects import (
     ball as _ball,
@@ -7,6 +8,7 @@ from objects import (
 )
 from objects.commons import change_velocity
 from objects.screen import Screen
+from objects.particle import generate_random_glass
 import resources.tile as tile
 
 BORDER = 40
@@ -30,6 +32,7 @@ def loop(screen: Screen):
     lives = 3
     level_mgr = tile.LevelManager()
     screen.background, blocks, paddle, ball = tile.load_first_level(level_mgr)
+    broken_glass = []
     while running:
         for event in pygame.event.get():
             if event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE:
@@ -59,6 +62,19 @@ def loop(screen: Screen):
         # draw objects to screen
         draw(screen, ball, paddle, blocks)
 
+        for glass in broken_glass:
+            glass.update(dt)
+            glass.draw(screen.surface)
+
+        for glass in reversed(broken_glass):
+            if glass.fallen:
+                broken_glass.remove(glass)
+
+        for block in blocks:
+            if block.health <= 0:
+                for i in range(random.randint(10, 20)):
+                    broken_glass.append(generate_random_glass(block))
+
         # check if ball has dropped off screen
         if ball.fallen:
             _paddle.reset(paddle)
@@ -66,6 +82,7 @@ def loop(screen: Screen):
             lives -= 1
             if lives < 0:
                 running = False
+
         pygame.display.flip()
 
         # count frames

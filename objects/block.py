@@ -61,3 +61,18 @@ def check_bounds(block: Block):
         block.velocity.x = -block.velocity.x
 
 
+def define_colour(colour: str):
+    if colour == "red":
+        return 255, 0, 0
+    elif colour == "blue":
+        return 90, 90, 255
+    elif colour == "green":
+        return 0, 255, 0
+    elif colour == "pink":
+        return 255, 0, 255
+    elif colour == "orange":
+        return 255, 153, 0
+    else:
+        return 100, 100, 100
+
+
