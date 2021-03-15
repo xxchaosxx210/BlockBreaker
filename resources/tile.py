@@ -100,12 +100,9 @@ def load_first_level(level_manager: LevelManager):
 
 
 def load_next_level(level_manager: LevelManager):
-    try:
-        load_level(level_manager, level_manager.paths[level_manager.offset+1])
-        level_manager.offset += 1
-        return True
-    except IndexError:
-        return False
+    bck_img, blocks, paddle, ball = load_level(level_manager, level_manager.paths[level_manager.offset+1])
+    level_manager.offset += 1
+    return bck_img, blocks, paddle, ball
 
 
 def load_global_ids(tile_sets: list):

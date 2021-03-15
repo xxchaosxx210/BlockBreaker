@@ -75,6 +75,9 @@ def loop(screen: Screen):
         _block.remove_dead_blocks(blocks)
 
         # Check if level complete
-        # if not list(filter(lambda b: b.breakable, blocks)):
-        #     _paddle.reset(paddle, game_rect)
-        #     _ball.reset(ball)
+        if not list(filter(lambda b: b.breakable, blocks)):
+            try:
+                screen.background, blocks, paddle, ball = tile.load_next_level(level_mgr)
+            except IndexError:
+                # No more levels to load
+                running = False
