@@ -1,4 +1,3 @@
-
 import math
 import random
 
@@ -115,3 +114,7 @@ def random_direction():
 
 def copy(vec):
     return Vector(vec.x, vec.y)
+
+
+def change_velocity(velocity: Vector, speed: float):
+    return normalize(velocity) * speed

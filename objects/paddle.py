@@ -3,10 +3,9 @@ import pygame
 from geometry.vector import (
     Vector,
     approach,
-    copy
+    copy,
+    change_velocity
 )
-
-from objects.commons import change_velocity
 
 PADDLE_MIN_SPEED = 20
 

@@ -6,7 +6,7 @@ from objects import (
     paddle as _paddle,
     block as _block
 )
-from objects.commons import change_velocity
+from geometry.vector import change_velocity
 from objects.screen import Screen
 from objects.particle import generate_random_glass
 import resources.tile as tile
