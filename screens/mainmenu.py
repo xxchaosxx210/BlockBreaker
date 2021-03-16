@@ -18,6 +18,10 @@ def draw_title(screen: Screen, f: font.Font):
     screen.surface.blit(f.surface, dest=(f.x, f.y))
 
 
+def on_key_up(key: int):
+    pass
+
+
 def loop():
     clock = pygame.time.Clock()
     running = True
@@ -32,6 +36,8 @@ def loop():
                 running = False
             elif event.type == pygame.KEYUP and event.key == pygame.K_RETURN:
                 game.loop(screen)
+            elif event.type == pygame.KEYUP:
+                on_key_up(event.key)
         # update
         # draw
         draw(screen)
