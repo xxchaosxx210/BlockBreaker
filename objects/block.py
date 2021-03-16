@@ -65,7 +65,7 @@ def define_colour(colour: str):
     if colour == "red":
         return 255, 0, 0
     elif colour == "blue":
-        return 90, 90, 255
+        return 0, 55, 255
     elif colour == "green":
         return 0, 255, 0
     elif colour == "pink":

@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "mainmenu.json",
+    "activeFile": "level2.json",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -11,6 +11,14 @@
         "level1.json": {
             "scale": 0.8146969696969696,
             "selectedLayer": 2,
+            "viewCenter": {
+                "x": 611.2702250325461,
+                "y": 359.6429235633253
+            }
+        },
+        "level2.json": {
+            "scale": 0.8146969696969696,
+            "selectedLayer": 1,
             "viewCenter": {
                 "x": 611.2702250325461,
                 "y": 359.6429235633253
@@ -84,27 +92,26 @@
     "map.tileWidth": 40,
     "map.width": 32,
     "openFiles": [
-        "level1.json",
+        "level2.json",
         "resources/tilesets/pink.json",
         "resources/tilesets/orange.json",
-        "resources/tilesets/green.json",
-        "mainmenu.json"
+        "resources/tilesets/green.json"
     ],
     "project": "block-breaker.tiled-project",
     "property.type": "int",
     "recentFiles": [
-        "level1.json",
-        "resources/tilesets/pink.json",
-        "resources/tilesets/orange.json",
         "resources/tilesets/green.json",
+        "resources/tilesets/orange.json",
+        "resources/tilesets/pink.json",
+        "level2.json",
+        "level1.json",
         "mainmenu.json",
         "template.json",
         "resources/tilesets/ball.json",
         "resources/tilesets/red.json",
         "resources/tilesets/paddle.json",
         "resources/tilesets/blue.json",
-        "resources/tilesets/background.json",
-        "resources/tilesets/grey.json"
+        "resources/tilesets/background.json"
     ],
     "tileset.lastUsedFormat": "json",
     "tileset.tileSize": {

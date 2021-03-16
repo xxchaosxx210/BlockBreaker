@@ -8,7 +8,7 @@ from objects import (
 )
 from geometry.vector import change_velocity
 from objects.screen import Screen
-from objects.particle import generate_random_glass
+from objects.particle import create_broken_glass
 import resources.tile as tile
 
 BORDER = 40
@@ -72,8 +72,7 @@ def loop(screen: Screen):
 
         for block in blocks:
             if block.health <= 0:
-                for i in range(random.randint(10, 20)):
-                    broken_glass.append(generate_random_glass(block))
+                broken_glass.extend(create_broken_glass(block))
 
         # check if ball has dropped off screen
         if ball.fallen:

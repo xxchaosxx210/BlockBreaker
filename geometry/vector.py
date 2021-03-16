@@ -118,3 +118,16 @@ def copy(vec):
 
 def change_velocity(velocity: Vector, speed: float):
     return normalize(velocity) * speed
+
+
+def rotate(angle: float):
+    """
+    rotates the vector according to the Angle
+    Args:
+        vec: vector to rotate
+        angle: rotation angle
+
+    Returns:
+        a new Vector at given angle
+    """
+    return Vector(math.cos(math.radians(angle)), math.sin(math.radians(angle)))
